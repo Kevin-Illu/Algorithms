@@ -1,3 +1,7 @@
-import { binarySearch } from "./Algorithms";
+import { SelectionSort } from "./SelectionSort/selectionSort";
 
-console.log(binarySearch([1, 32, 41, 51, 66], 32));
+const testArr = [132, 32, 41, 51, 6];
+
+const result = SelectionSort(testArr.slice());
+console.log(result);
+console.log(testArr);
