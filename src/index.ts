@@ -1,7 +1,15 @@
-import { SelectionSort } from "./SelectionSort/selectionSort";
+function countdown(n: number) {
+  if (n < 0) return;
+  console.log(n);
+  countdown(n - 1);
+}
 
-const testArr = [132, 32, 41, 51, 6];
+function factorial(n: number): number {
+  if (n === 1) {
+    return 1;
+  }
 
-const result = SelectionSort(testArr.slice());
-console.log(result);
-console.log(testArr);
+  return n * factorial(n - 1);
+}
+
+console.log(factorial(3));
