@@ -69,5 +69,3 @@ export function recursiveBinarySearch(
     return recursiveBinarySearch(arr, item, mid + 1, high);
   }
 }
-
-console.log(recursiveBinarySearch([1, 2], 2));
