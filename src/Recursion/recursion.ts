@@ -22,14 +22,9 @@ export function factorial(n: number): number {
 //     total += x
 //   }
 // }
-
 export function sum(arr: Array<number>): number {
-  if (arr.length < 1) {
-    return 0;
-  }
-
-  if (arr.length === 1) {
-    return arr[0];
+  if (arr.length <= 1) {
+    return arr[0] || 0;
   }
 
   const firstElement = arr.splice(0, 1)[0];
@@ -38,7 +33,7 @@ export function sum(arr: Array<number>): number {
 
 // write a recursive function to count the number of items in a list.
 // list = [1]
-function len(arr: Array<number>): number {
+export function length(arr: Array<number>): number {
   let count = 0;
 
   if (arr[count] === undefined) {
@@ -47,7 +42,32 @@ function len(arr: Array<number>): number {
 
   arr.splice(count, 1);
   count += 1;
-  return count + len(arr);
+
+  return count + length(arr);
 }
 
-console.log(len([12, 4, 3, 8, 6, 12]));
+// can you come up with the base case and recursive
+// case for binary serach?
+export function recursiveBinarySearch(
+  arr: Array<number>,
+  item: number,
+  low: number = 0,
+  high: number = arr.length - 1
+): number | null {
+  if (low > high) {
+    return null;
+  }
+
+  const mid = Math.floor((low + high) / 2);
+  const guess = arr[mid];
+
+  if (guess === item) {
+    return mid;
+  } else if (guess > item) {
+    return recursiveBinarySearch(arr, item, low, mid - 1);
+  } else {
+    return recursiveBinarySearch(arr, item, mid + 1, high);
+  }
+}
+
+console.log(recursiveBinarySearch([1, 2], 2));
