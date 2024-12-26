@@ -1,4 +1,3 @@
-import { link } from "fs/promises";
 
 class Node {
   next: Node | null = null;
@@ -12,6 +11,7 @@ class LinkedList {
   head: Node | null = null;
   tail = this.head;
   length = 0;
+
   constructor() { }
 
   append(value: number) {
@@ -28,9 +28,42 @@ class LinkedList {
     this.length++;
   }
 
-  prepend(value: number) { }
+  getPrevNextNodes(index: number) {
+    let count = 0;
+    let prevNode = this.head;
+    let nextNode = prevNode!.next;
 
-  insert(value: number, index: number) { }
+    while (count < index - 1) {
+      prevNode = prevNode!.next;
+      nextNode = prevNode!.next;
+      count++;
+    }
+
+    return {
+      prevNode,
+      nextNode
+    }
+  }
+
+  prepend(value: number) {
+    const node = new Node(value);
+    node.next = this.head;
+    this.head = node;
+    this.length++;
+  }
+
+  insert(value: number, index: number) {
+    if (index >= this.length) {
+      this.append(value);
+      return;
+    }
+
+    const node = new Node(value);
+    const { prevNode, nextNode } = this.getPrevNextNodes(index);
+    prevNode!.next = node;
+    node.next = nextNode;
+    this.length++;
+  }
 
   lookup(index: number) { }
 
@@ -47,6 +80,8 @@ export const linkedList = new LinkedList();
   linkedList.append(2);
   linkedList.append(3);
   linkedList.append(4);
+
+  linkedList.insert(45, 2);
 
   console.log(linkedList);
 })()
