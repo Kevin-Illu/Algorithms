@@ -18,6 +18,6 @@ export function quicksort(arr: number[]): number[] {
   return [...quicksort(left), pivot, ...quicksort(right)];
 }
 
-const unsortedArray = [5, 3, 7, 2, 8, 4, 1, 6, 8];
-const sortedArray = quicksort(unsortedArray);
-console.log(sortedArray);
+// const unsortedArray = [5, 3, 7, 2, 8, 4, 1, 6, 8];
+// const sortedArray = quicksort(unsortedArray);
+// console.log(sortedArray);
