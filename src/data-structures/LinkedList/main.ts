@@ -1,87 +1,120 @@
+class TNode<T> {
+  data: T;
+  next: TNode<T> | null;
 
-class Node {
-  next: Node | null = null;
-
-  constructor(
-    public value: number
-  ) { }
+  constructor(data: T) {
+    this.data = data;
+    this.next = null;
+  }
 }
 
-class LinkedList {
-  head: Node | null = null;
-  tail = this.head;
-  length = 0;
+class LinkedList<T> {
+  head: TNode<T> | null;
+  count: number = 0;
 
-  constructor() { }
+  constructor() {
+    this.head = null;
+  }
 
-  append(value: number) {
-    const newNode = new Node(value);
+  add(data: T) {
+    const newNode = new TNode(data);
 
-    if (!this.head) {
+    if (this.head === null) {
       this.head = newNode;
-      this.tail = newNode;
-    } else if (this.tail) {
-      this.tail.next = newNode;
-      this.tail = newNode;
-    }
-
-    this.length++;
-  }
-
-  getPrevNextNodes(index: number) {
-    let count = 0;
-    let prevNode = this.head;
-    let nextNode = prevNode!.next;
-
-    while (count < index - 1) {
-      prevNode = prevNode!.next;
-      nextNode = prevNode!.next;
-      count++;
-    }
-
-    return {
-      prevNode,
-      nextNode
-    }
-  }
-
-  prepend(value: number) {
-    const node = new Node(value);
-    node.next = this.head;
-    this.head = node;
-    this.length++;
-  }
-
-  insert(value: number, index: number) {
-    if (index >= this.length) {
-      this.append(value);
       return;
     }
 
-    const node = new Node(value);
-    const { prevNode, nextNode } = this.getPrevNextNodes(index);
-    prevNode!.next = node;
-    node.next = nextNode;
-    this.length++;
+    let current = this.head;
+    while (current.next !== null) {
+      current = current.next;
+    }
+
+    current.next = newNode;
+    this.count++;
   }
 
-  lookup(index: number) { }
+  getAll(): T[] {
+    const items: T[] = [];
+    let current = this.head;
 
-  remove(index: number) { }
+    while (current) {
+      items.push(current.data);
+      current = current.next;
+    }
 
-  reverse() { }
+    return items;
+  }
+
+  delete(item: T): boolean {
+    if (!this.head) return false;
+
+    if (this.head.data === item) {
+      this.head = this.head.next;
+      this.count--;
+      return true;
+    }
+
+    let current = this.head;
+    let prev: TNode<T> | null = null;
+
+    while (current) {
+      if (current.data === item) {
+        if (prev) {
+          prev.next = current.next;
+        }
+        this.count--;
+        return true;
+      }
+
+      prev = current;
+      current = current.next;
+    }
+
+    return false;
+  }
+
+  deleteAt(index: number): T | undefined {
+    if (index < 0 || index >= this.count || !this.head) return undefined;
+
+    if (index === 0) {
+      const removedData = this.head.data;
+      this.head = this.head.next;
+      this.count--;
+      return removedData;
+    }
+
+    let current = this.head;
+    let prev: TNode<T> | null = null;
+    let currentIndex = 0;
+
+    while (current && currentIndex !== index) {
+      prev = current;
+      current = current.next;
+      currentIndex++;
+    }
+
+    if (current && prev) {
+      const removedData = current.data;
+      prev.next = current.next;
+      this.count--;
+      return removedData;
+    }
+
+    return undefined;
+  }
+
+  find(item: T): T | undefined {
+    let current = this.head;
+    while (current) {
+      if (current.data === item) {
+        return current.data;
+      }
+      current = current.next;
+    }
+    return undefined;
+  }
+
+  size(): number {
+    return this.count;
+  }
 }
-
-export const linkedList = new LinkedList();
-
-(() => {
-  // only for tests
-  const linkedList = new LinkedList();
-  linkedList.append(2);
-  linkedList.append(3);
-  linkedList.append(4);
-
-  linkedList.insert(45, 2);
-
-  console.log(linkedList);
-})()
