@@ -57,17 +57,18 @@ class LinkedList<T> {
     let current = this.head;
     let prev: TNode<T> | null = null;
 
-    while (current) {
-      if (current.data === item) {
-        if (prev) {
-          prev.next = current.next;
-        }
-        this.count--;
-        return true;
-      }
-
+    while (current && current.data !== item) {
       prev = current;
       current = current.next;
+    }
+
+    if (current) {
+      if (prev) {
+        prev.next = current.next;
+      }
+
+      this.count--;
+      return true;
     }
 
     return false;
